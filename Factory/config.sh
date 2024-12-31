@@ -42,6 +42,7 @@ input_wifi_creds
 
 /usr/sbin/net_manage.sh &
 ntpd -n -N -q -p 0.asia.pool.ntp.org &
+ntpd -n -N -q -p 1.asia.pool.ntp.org &
 export TZ=$time_zone
 
 telnetd &
