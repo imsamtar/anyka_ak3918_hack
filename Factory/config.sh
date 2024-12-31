@@ -51,7 +51,7 @@ ak_adec_demo 38000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
 /mnt/Factory/apps/busybox httpd -p 8080 -h /mnt/Factory/apps/www &
 sleep 5
 /mnt/Factory/apps/rtsp/rtsp &
-
+sleep 15
 
 OUTPUT_DIR="/mnt/record"
 RTSP_URL="rtsp://127.0.0.1:554/vs0"
