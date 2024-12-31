@@ -58,7 +58,8 @@ struct ak_misc {
 static struct ak_misc misc_ctrl = {0};
 
 
-#define FIRST_PATH                  "/etc/jffs2/"
+#define FIRST_PATH_1                  "/etc/jffs2/"
+#define FIRST_PATH_2                  "/tmp/sensor_ko_and_isp_conf/"
 #define LEN_HINT                    512
 #define DEFAULT_MAIN_WIDTH          1280
 #define DEFAULT_MAIN_HEIGHT         720
@@ -146,7 +147,7 @@ void *vi_handle;
 static void *ak_rtsp_vi_init(void)
 {
 	/* match sensor */
-	if (ak_vi_match_sensor(FIRST_PATH) < 0) {
+	if (ak_vi_match_sensor(FIRST_PATH_1) < 0 && ak_vi_match_sensor(FIRST_PATH_2) < 0) {
 		ak_print_error_ex("match sensor failed\n");
 		return NULL;
 	}
