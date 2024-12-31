@@ -56,14 +56,14 @@ sleep 5
 OUTPUT_DIR="/mnt/record"
 RTSP_URL="rtsp://127.0.0.1:554/vs0"
 
-mkdir -p OUTPUT_DIR
+mkdir -p $OUTPUT_DIR
 
-# Loop to continuously record the stream
 while [ 1 ]; do
+    ntpd -n -N -q -p 0.asia.pool.ntp.org &
     FILENAME="$(date +%s).h264"
-    ./ffmpeg -i "$RTSP_URL" -vcodec copy -acodec copy -f h264 "$OUTPUT_DIR/$FILENAME" &
-    sleep 10
-    pkill -f "./ffmpeg -i $RTSP_URL"
+    /mnt/Factory/apps/ffmpeg/ffmpeg -i "$RTSP_URL" -vcodec copy -acodec copy -f h264 "$OUTPUT_DIR/$FILENAME" &
+    sleep 150
+    pkill -9 -f "./ffmpeg -i $RTSP_URL"
 done
 
 while [ 1 ]; do
