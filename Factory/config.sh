@@ -15,12 +15,12 @@ readline() {
 input_wifi_creds() {
   echo 'adding new wifi credentials'
   i=1
-  let linecountlimit=$(wc -l < $factorycfg)
+  let linecountlimit=$(wc -l < $cfgfile)
   echo "$linecountlimit lines"
   newcredfile=/mnt/Factory/anyka_cfg.ini
   echo -n "" > $newcredfile
   while [ $i -le $linecountlimit ]; do
-    line=$(readline $i $factorycfg)
+    line=$(readline $i $cfgfile)
     if [[ "${line:0:4}" == "ssid" ]]; then
       echo "insert $wifi_ssid on line $i"
       echo "ssid = $wifi_ssid">> $newcredfile
@@ -45,7 +45,7 @@ ntpd -n -N -p $time_source &
 export TZ=$time_zone
 
 telnetd &
-ak_adec_demo 16000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
+ak_adec_demo 38000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
 /mnt/Factory/apps/ptz/ptz_daemon & 
 /mnt/Factory/apps/busybox httpd -p 8080 -h /mnt/Factory/apps/www &
 sleep 5
