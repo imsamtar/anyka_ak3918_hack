@@ -50,7 +50,7 @@ ak_adec_demo 38000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
 sleep 5
 /mnt/Factory/apps/rtsp/rtsp &
 ntpd -n -N -q -p $(cat /tmp/gw0) &
-sleep 5
+sleep 20
 
 mkdir -p /mnt/record
 while [ $(date +%s) -lt 1735652000 ]; do
@@ -58,17 +58,13 @@ while [ $(date +%s) -lt 1735652000 ]; do
     sleep 5
 done
 
+ak_adec_demo 16000 2 aac /data/audio_file/chs/1002.aac
+
 while [ 1 ]; do
-    RTSP_URL="rtsp://127.0.0.1:554/vs0"
-    FILENAME="/mnt/record/$(date +"%H:%M:%S_%d:%m:%Y").h264"
-    /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
+    echo 3 > /proc/sys/vm/drop_caches
+    /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i rtsp://127.0.0.1:554/vs1 -r 3 -vcodec copy -an -f h264 /mnt/record/$(date +"%Y_%m_%d-%H_%M_%S").h264 &
     sleep 10
     while pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; do
         sleep 30
     done
-    # pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
-done
-
-while [ 1 ]; do
-    sleep 30
 done
