@@ -2,7 +2,7 @@
 
 export LD_LIBRARY_PATH=/mnt/Factory/apps/lib
 
-source /mnt/Factory/env.cfg
+source /mnt/env.cfg
 factorycfg=/usr/local/factory_cfg.ini
 cfgfile=/etc/jffs2/anyka_cfg.ini
 
