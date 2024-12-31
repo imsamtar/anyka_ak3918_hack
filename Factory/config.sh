@@ -66,12 +66,15 @@ while [ 1 ]; do
         FILENAME="/mnt/record/$RND.h264"
     fi
     /mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
-    if [ "$(date +%s)" -gt 1735652000 ]; then
-        sleep 3600
-    else
-        sleep 120
+    sleep 5
+    if pgrep -x ffmpeg > /dev/null; then
+        if [ "$(date +%s)" -gt 1735652000 ]; then
+            sleep 3600
+        else
+            sleep 120
+        fi
+        pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
     fi
-    pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
 done
 
 while [ 1 ]; do
