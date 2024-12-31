@@ -49,31 +49,24 @@ ak_adec_demo 38000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
 /mnt/Factory/apps/busybox httpd -p 8080 -h /mnt/Factory/apps/www &
 sleep 5
 /mnt/Factory/apps/rtsp/rtsp &
-ntpd -n -N -q -p 0.asia.pool.ntp.org &
-ntpd -n -N -q -p 1.asia.pool.ntp.org &
-sleep 15
+ntpd -n -N -q -p $(cat /tmp/gw0)
 
-RTSP_URL="rtsp://127.0.0.1:554/vs0"
+mkdir -p /mnt/record
+while [ "$(date +%s)" -lt 1735652000 ]; then
+    ntpd -n -N -q -p 0.asia.pool.ntp.org
+    sleep 5
+fi
 
 while [ 1 ]; do
-    ntpd -n -N -q -p 0.asia.pool.ntp.org &
-    mkdir -p /mnt/record
-    FILENAME=""
-    if [ "$(date +%s)" -gt 1735652000 ]; then
-        FILENAME="/mnt/record/$(date +"%H:%M:%S_%d:%m:%Y").h264"
-    else
-        RND=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
-        FILENAME="/mnt/record/$RND.h264"
-    fi
-    /mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
-    sleep 5
+    RTSP_URL="rtsp://127.0.0.1:554/vs0"
+    FILENAME="/mnt/record/$(date +"%H:%M:%S_%d:%m:%Y").h264"
+    /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
+    sleep 10
     if pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; then
-        if [ "$(date +%s)" -gt 1735652000 ]; then
-            sleep 3600
-        else
-            sleep 120
-        fi
-        pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
+        while [ 1 ]; do
+            sleep 30
+        done
+        # pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
     fi
 done
 
