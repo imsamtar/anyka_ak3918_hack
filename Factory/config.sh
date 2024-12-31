@@ -53,14 +53,24 @@ ntpd -n -N -q -p 0.asia.pool.ntp.org &
 ntpd -n -N -q -p 1.asia.pool.ntp.org &
 sleep 15
 
-mkdir -p /mnt/record
-
-RND=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
+RTSP_URL="rtsp://127.0.0.1:554/vs0"
 
 while [ 1 ]; do
     ntpd -n -N -q -p 0.asia.pool.ntp.org &
-    /mnt/Factory/apps/ffmpeg/ffmpeg -i rtsp://127.0.0.1:554/vs1 -vcodec copy -acodec copy -f h264 "/mnt/record/$(date +%s)_$RND.h264" &
-    sleep 150
+    mkdir -p /mnt/record
+    FILENAME=""
+    if [ "$(date +%s)" -gt 1735652000 ]; then
+        FILENAME="/mnt/record/$(date +"%H:%M:%S_%d:%m:%Y").h264"
+    else
+        RND=$(awk -v min=5 -v max=1000000 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
+        FILENAME="/mnt/record/$RND.h264"
+    fi
+    /mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
+    if [ "$(date +%s)" -gt 1735652000 ]; then
+        sleep 3600
+    else
+        sleep 120
+    fi
     pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
 done
 
