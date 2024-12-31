@@ -49,13 +49,14 @@ ak_adec_demo 38000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
 /mnt/Factory/apps/busybox httpd -p 8080 -h /mnt/Factory/apps/www &
 sleep 5
 /mnt/Factory/apps/rtsp/rtsp &
-ntpd -n -N -q -p $(cat /tmp/gw0)
+ntpd -n -N -q -p $(cat /tmp/gw0) &
+sleep 5
 
 mkdir -p /mnt/record
-while [ "$(date +%s)" -lt 1735652000 ]; then
-    ntpd -n -N -q -p 0.asia.pool.ntp.org
+while [ $(date +%s) -lt 1735652000 ]; do
+    ntpd -n -N -q -p 0.asia.pool.ntp.org &
     sleep 5
-fi
+done
 
 while [ 1 ]; do
     RTSP_URL="rtsp://127.0.0.1:554/vs0"
