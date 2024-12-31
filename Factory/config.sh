@@ -3,17 +3,18 @@
 export LD_LIBRARY_PATH=/mnt/Factory/apps/lib
 
 source /mnt/Factory/env.cfg
+factorycfg=/usr/local/factory_cfg.ini
 cfgfile=/etc/jffs2/anyka_cfg.ini
 
 input_wifi_creds() {
   echo 'adding new wifi credentials'
   i=1
-  let linecountlimit=$(wc -l < $cfgfile)
+  let linecountlimit=$(wc -l < $factorycfg)
   echo "$linecountlimit lines"
   newcredfile=/mnt/Factory/anyka_cfg.ini
   echo -n "" > $newcredfile
   while [ $i -le $linecountlimit ]; do
-    line=$(readline $i $cfgfile)
+    line=$(readline $i $factorycfg)
     if [[ "${line:0:4}" == "ssid" ]]; then
       echo "insert $wifi_ssid on line $i"
       echo "ssid = $wifi_ssid">> $newcredfile
