@@ -41,7 +41,7 @@ input_wifi_creds() {
 input_wifi_creds
 
 /usr/sbin/net_manage.sh &
-ntpd -n -N -p $time_source &
+ntpd -n -N -q -p 0.asia.pool.ntp.org &
 export TZ=$time_zone
 
 telnetd &
@@ -50,6 +50,20 @@ ak_adec_demo 38000 2 mp3 /mnt/Factory/media/Tutturuu_low.mp3
 /mnt/Factory/apps/busybox httpd -p 8080 -h /mnt/Factory/apps/www &
 sleep 5
 /mnt/Factory/apps/rtsp/rtsp &
+
+
+OUTPUT_DIR="/mnt/record"
+RTSP_URL="rtsp://127.0.0.1:554/vs0"
+
+mkdir -p OUTPUT_DIR
+
+# Loop to continuously record the stream
+while [ 1 ]; do
+    FILENAME="$(date +%s).h264"
+    ./ffmpeg -i "$RTSP_URL" -vcodec copy -acodec copy -f h264 "$OUTPUT_DIR/$FILENAME" &
+    sleep 10
+    pkill -f "./ffmpeg -i $RTSP_URL"
+done
 
 while [ 1 ]; do
     sleep 30
