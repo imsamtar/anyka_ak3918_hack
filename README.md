@@ -8,3 +8,4 @@
 <!-- - `git clone https://github.com/helloworld-spec/qiwen.git` -->
 - `wget https://github.com/helloworld-spec/qiwen/raw/refs/heads/main/anycloud39ev300/SDK/tools/anyka_uclibc_gcc.tar.bz2`
 - `sudo tar -Pxvf anyka_uclibc_gcc.tar.bz2` (this will set up the compiler in /opt/)
+- `echo "export PATH=\"$PATH:/opt/arm-anykav200-crosstool/usr/bin\"" > ~/.bashrc`
