@@ -62,12 +62,10 @@ while [ 1 ]; do
     FILENAME="/mnt/record/$(date +"%H:%M:%S_%d:%m:%Y").h264"
     /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
     sleep 10
-    if pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; then
-        while [ 1 ]; do
-            sleep 30
-        done
-        # pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
-    fi
+    while pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; do
+        sleep 30
+    done
+    # pkill -n -f "/mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL"
 done
 
 while [ 1 ]; do
