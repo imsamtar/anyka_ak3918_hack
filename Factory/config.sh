@@ -67,7 +67,7 @@ while [ 1 ]; do
     fi
     /mnt/Factory/apps/ffmpeg/ffmpeg -i $RTSP_URL -vcodec copy -acodec copy -f h264 "/mnt/record/RAND_$RND.h264" &
     sleep 5
-    if pgrep -x ffmpeg > /dev/null; then
+    if pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; then
         if [ "$(date +%s)" -gt 1735652000 ]; then
             sleep 3600
         else
