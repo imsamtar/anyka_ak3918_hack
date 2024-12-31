@@ -17,13 +17,13 @@ input_wifi_creds() {
     line=$(readline $i $factorycfg)
     if [[ "${line:0:4}" == "ssid" ]]; then
       echo "insert $wifi_ssid on line $i"
-      echo "ssid = $wifi_ssid">> $newcredfile
+      printf "$(cat $newcredfile)\\nssid = $wifi_ssid" > $newcredfile
     else
       if [[ "${line:0:8}" == "password" ]]; then
         echo "insert $wifi_password on line $i"
-        echo "password = $wifi_password">> $newcredfile
+        printf "$(cat $newcredfile)\\npassword = $wifi_password">> $newcredfile
       else
-        echo "$line">> $newcredfile
+        printf "$(cat $newcredfile)\\n$line">> $newcredfile
       fi
     fi
     let i++
