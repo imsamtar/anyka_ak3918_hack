@@ -6,6 +6,12 @@ source /mnt/Factory/env.cfg
 factorycfg=/usr/local/factory_cfg.ini
 cfgfile=/etc/jffs2/anyka_cfg.ini
 
+readline() {
+  linetoread=$1
+  file=$2
+  sed $linetoread'q;d' $file
+}
+
 input_wifi_creds() {
   echo 'adding new wifi credentials'
   i=1
@@ -33,7 +39,6 @@ input_wifi_creds() {
 }
 
 input_wifi_creds
-
 
 /usr/sbin/net_manage.sh &
 ntpd -n -N -p $time_source &
