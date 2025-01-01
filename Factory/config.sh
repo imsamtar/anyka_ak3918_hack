@@ -6,6 +6,42 @@ source /mnt/env.cfg
 factorycfg=/usr/local/factory_cfg.ini
 cfgfile=/etc/jffs2/anyka_cfg.ini
 
+glaze() {
+  echo "t2p 184 82" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 184 73" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 184 55" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 205 45" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 225 36" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 225 86" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 225 36" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 250 45" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 330 75" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 330 75" >/tmp/ptz.daemon
+	sleep 2
+	echo "t2p 250 45" >/tmp/ptz.daemon
+	sleep 2
+	echo "t2p 225 36" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 225 86" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 225 36" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 205 45" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 184 55" >/tmp/ptz.daemon
+	sleep 5
+	echo "t2p 184 73" >/tmp/ptz.daemon
+}
+
 readline() {
   linetoread=$1
   file=$2
@@ -65,6 +101,10 @@ while [ 1 ]; do
     /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i rtsp://127.0.0.1:554/vs1 -r 3 -vcodec copy -an -f h264 /mnt/record/$(date +"%Y_%m_%d-%H_%M_%S").h264 &
     sleep 10
     while pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; do
-        sleep 30
+        if [ $RANDOM -lt 1638 ]; then
+          glaze
+        else
+          sleep 30
+        fi
     done
 done
