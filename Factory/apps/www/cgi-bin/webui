@@ -61,7 +61,7 @@ fi
 if [ "$command" = "ptzr" ]; then
 	echo "right" >/tmp/ptz.daemon
 fi
-if [ "$command" = "glaze" ]; then
+if [ "$command" = "lookaround" ]; then
 	echo "t2p 184 82" >/tmp/ptz.daemon
 	sleep 5
 	echo "t2p 184 73" >/tmp/ptz.daemon
