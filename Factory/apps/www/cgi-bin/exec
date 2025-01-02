@@ -111,3 +111,13 @@ fi
 if [ "$command" = "view7" ]; then
 	echo "t2p 225 86" >/tmp/ptz.daemon
 fi
+if [ "$command" = "recordings" ]; then
+	if [ -d "/mnt/record" ]; then
+		find "/mnt/record" -type f | while read file; do
+			ls -l "$file" | awk '{print $9, $5}'
+		done
+	fi
+fi
+if [ "$command" = "reboot" ]; then
+	reboot &
+fi

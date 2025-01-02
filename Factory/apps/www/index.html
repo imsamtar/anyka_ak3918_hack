@@ -93,7 +93,7 @@
         if (pending) return;
         setPending(true);
         try {
-          const response = await fetch(`/cgi-bin/webui?command=${cmd}`);
+          const response = await fetch(`/cgi-bin/exec?command=${cmd}`);
           const text = await response.text();
           console.log("CMD>", cmd, "==>", text);
           setPending(false);
@@ -102,16 +102,37 @@
           setPending(false);
         }
       }
+
+      async function listRecordings() {
+        try {
+          const response = await fetch(`/cgi-bin/exec?command=recordings`);
+          const text = await response.text();
+          const elm = document.querySelector("#list-recordings");
+          elm.value = text
+            .split("\n")
+            .filter((line) => line.match("/mnt/"))
+            .join("\n");
+        } catch (e) {
+          console.error(e);
+        }
+      }
     </script>
   </head>
   <body>
     <h1>Camera Control</h1>
+    <div class="controls">
+      <button onclick="runCmd('reboot')" id="reboot">REBOOT</button>
+    </div>
     <div class="controls">
       <button onclick="runCmd('ledon')" id="ledon">LED ON</button>
       <button onclick="runCmd('ledoff')" id="ledoff">LED OFF</button>
       <button onclick="runCmd('iron')" id="iron">IR ON</button>
       <button onclick="runCmd('iroff')" id="iroff">IR OFF</button>
     </div>
+
+    <div id="loading"></div>
+
+    <textarea id="list-recordings" rows="10" cols="60"></textarea>
 
     <table class="ptz">
       <tr>
@@ -146,7 +167,8 @@
       <button onclick="runCmd('view6')">VIEW 6</button>
       <button onclick="runCmd('view7')">VIEW 7</button>
     </div>
-
-    <div id="loading"></div>
+    <script>
+      listRecordings();
+    </script>
   </body>
 </html>
