@@ -78,7 +78,11 @@ sleep 5
 ntpd -n -N -q -p $(cat /tmp/gw0) &
 sleep 20
 
-mkdir -p /mnt/record
+if [ ! -d "/mnt/record" ]
+  mkdir -p /mnt/record
+  touch /mnt/record/rec
+fi
+
 while [ $(date +%s) -lt 1735652000 ]; do
     ntpd -n -N -q -p 0.asia.pool.ntp.org &
     sleep 5
@@ -87,14 +91,21 @@ done
 ak_adec_demo 16000 2 aac /data/audio_file/chs/1002.aac
 
 while [ 1 ]; do
+  if [ -d "/mnt/record" ] && [ -f "/mnt/record/rec" ]; then
     echo 3 > /proc/sys/vm/drop_caches
+    sleep 1
     /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i rtsp://127.0.0.1:554/vs1 -r 3 -vcodec copy -an -f h264 /mnt/record/$(date +"%Y_%m_%d-%H_%M_%S").h264 &
-    sleep 10
+    sleep 5
     while pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; do
-        if [ $RANDOM -lt 1638 ]; then
-          lookaround
+        if [ -d "/mnt/record" ] && [ -f "/mnt/record/rec" ]; then
+          if [ $RANDOM -lt 273 ]; then
+            lookaround
+          fi
+          sleep 10
         else
-          sleep 30
+          pkill -9 /mnt/Factory/apps/ffmpeg/ffmpeg
         fi
     done
+  fi
+  sleep 10
 done
