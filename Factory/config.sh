@@ -97,14 +97,14 @@ while [ 1 ]; do
     /mnt/Factory/apps/ffmpeg/ffmpeg -threads 1 -i rtsp://127.0.0.1:554/vs1 -r 3 -vcodec copy -an -f h264 /mnt/record/$(date +"%Y_%m_%d-%H_%M_%S").h264 &
     sleep 5
     while pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; do
-        if [ -d "/mnt/record" ] && [ -f "/mnt/record/rec" ]; then
-          if [ $RANDOM -lt 273 ]; then
-            lookaround
-          fi
-          sleep 10
-        else
-          pkill -9 /mnt/Factory/apps/ffmpeg/ffmpeg
+      if [ -d "/mnt/record" ] && [ -f "/mnt/record/rec" ]; then
+        if [ $RANDOM -lt 273 ]; then
+          lookaround
         fi
+        sleep 10
+      else
+        pkill -9 /mnt/Factory/apps/ffmpeg/ffmpeg
+      fi
     done
   fi
   sleep 10
