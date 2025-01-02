@@ -1,12 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Camera - WebUI</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
-        font-size: 100%;
         font-family: Arial, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f4f4f9;
+        color: #333;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      .controls,
+      .ptz,
+      .views {
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      button:active {
+        background-color: #003f7f;
+      }
+
+      button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin: auto;
+      }
+
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+
+      #loading {
+        margin-top: 20px;
+        font-size: 1rem;
+        color: #007bff;
+      }
+
+      @media (max-width: 600px) {
+        button {
+          width: 100%;
+          margin: 5px 0;
+        }
+
+        table td {
+          padding: 5px;
+        }
       }
     </style>
     <script>
@@ -15,12 +86,9 @@
         pending = !!status;
         const elm = document.querySelector("#loading");
         if (!elm) return;
-        if (status) {
-          elm.innerHTML = "pending...";
-        } else {
-          elm.innerHTML = "";
-        }
+        elm.innerHTML = status ? "Pending..." : "";
       }
+
       async function runCmd(cmd) {
         if (pending) return;
         setPending(true);
@@ -37,45 +105,48 @@
     </script>
   </head>
   <body>
-    <div>
-      <button onclick="runCmd('ledon')" id="ledon">LED ON</button> &nbsp;
+    <h1>Camera Control</h1>
+    <div class="controls">
+      <button onclick="runCmd('ledon')" id="ledon">LED ON</button>
       <button onclick="runCmd('ledoff')" id="ledoff">LED OFF</button>
-      <br />
-      <button onclick="runCmd('iron')" id="iron">IR ON</button> &nbsp;
+      <button onclick="runCmd('iron')" id="iron">IR ON</button>
       <button onclick="runCmd('iroff')" id="iroff">IR OFF</button>
     </div>
-    <table>
-      <tr align="center">
+
+    <table class="ptz">
+      <tr>
         <td><button onclick="runCmd('ptzrd')">&#11017;</button></td>
         <td><button onclick="runCmd('ptzd')">&#11014;</button></td>
         <td><button onclick="runCmd('ptzld')">&#11016;</button></td>
       </tr>
-      <tr align="center">
+      <tr>
         <td><button onclick="runCmd('ptzr')">&#11013;</button></td>
         <td>PTZ</td>
         <td><button onclick="runCmd('ptzl')">&#10145;</button></td>
       </tr>
-      <tr align="center">
+      <tr>
         <td><button onclick="runCmd('ptzru')">&#11019;</button></td>
         <td><button onclick="runCmd('ptzu')">&#11015;</button></td>
         <td><button onclick="runCmd('ptzlu')">&#11018;</button></td>
       </tr>
-      <tr align="center">
-        <td><button onclick="runCmd('lookaround')">Look Around</button></td>
-      </tr>
-      <tr align="center">
-        <td><button onclick="runCmd('view0')">VIEW 0</button></td>
-        <td><button onclick="runCmd('view1')">VIEW 1</button></td>
-        <td><button onclick="runCmd('view2')">VIEW 2</button></td>
-        <td><button onclick="runCmd('view3')">VIEW 3</button></td>
-      </tr>
-      <tr align="center">
-        <td><button onclick="runCmd('view4')">VIEW 4</button></td>
-        <td><button onclick="runCmd('view5')">VIEW 5</button></td>
-        <td><button onclick="runCmd('view6')">VIEW 6</button></td>
-        <td><button onclick="runCmd('view7')">VIEW 7</button></td>
+      <tr>
+        <td colspan="3">
+          <button onclick="runCmd('lookaround')">Look Around</button>
+        </td>
       </tr>
     </table>
+
+    <div class="views">
+      <button onclick="runCmd('view0')">VIEW 0</button>
+      <button onclick="runCmd('view1')">VIEW 1</button>
+      <button onclick="runCmd('view2')">VIEW 2</button>
+      <button onclick="runCmd('view3')">VIEW 3</button>
+      <button onclick="runCmd('view4')">VIEW 4</button>
+      <button onclick="runCmd('view5')">VIEW 5</button>
+      <button onclick="runCmd('view6')">VIEW 6</button>
+      <button onclick="runCmd('view7')">VIEW 7</button>
+    </div>
+
     <div id="loading"></div>
   </body>
 </html>

@@ -63,27 +63,17 @@ if [ "$command" = "ptzr" ]; then
 fi
 if [ "$command" = "lookaround" ]; then
 	echo "t2p 184 82" >/tmp/ptz.daemon
-	sleep 5
+	sleep 10
 	echo "t2p 184 73" >/tmp/ptz.daemon
-	sleep 15
+	sleep 10
 	echo "t2p 184 55" >/tmp/ptz.daemon
 	sleep 5
 	echo "t2p 205 45" >/tmp/ptz.daemon
 	sleep 5
 	echo "t2p 225 36" >/tmp/ptz.daemon
 	sleep 5
-	echo "t2p 225 86" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 225 36" >/tmp/ptz.daemon
-	sleep 5
 	echo "t2p 250 45" >/tmp/ptz.daemon
 	sleep 5
-	echo "t2p 330 75" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 330 75" >/tmp/ptz.daemon
-	sleep 2
-	echo "t2p 250 45" >/tmp/ptz.daemon
-	sleep 2
 	echo "t2p 225 36" >/tmp/ptz.daemon
 	sleep 5
 	echo "t2p 225 86" >/tmp/ptz.daemon

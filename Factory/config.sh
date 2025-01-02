@@ -6,40 +6,30 @@ source /mnt/env.cfg
 factorycfg=/usr/local/factory_cfg.ini
 cfgfile=/etc/jffs2/anyka_cfg.ini
 
-glaze() {
+lookaround() {
   echo "t2p 184 82" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 184 73" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 184 55" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 205 45" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 225 36" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 225 86" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 225 36" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 250 45" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 330 75" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 330 75" >/tmp/ptz.daemon
-	sleep 2
-	echo "t2p 250 45" >/tmp/ptz.daemon
-	sleep 2
-	echo "t2p 225 36" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 225 86" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 225 36" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 205 45" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 184 55" >/tmp/ptz.daemon
-	sleep 5
-	echo "t2p 184 73" >/tmp/ptz.daemon
+  sleep 10
+  echo "t2p 184 73" >/tmp/ptz.daemon
+  sleep 10
+  echo "t2p 184 55" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 205 45" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 225 36" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 250 45" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 225 36" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 225 86" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 225 36" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 205 45" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 184 55" >/tmp/ptz.daemon
+  sleep 5
+  echo "t2p 184 73" >/tmp/ptz.daemon
 }
 
 readline() {
@@ -102,7 +92,7 @@ while [ 1 ]; do
     sleep 10
     while pgrep -x /mnt/Factory/apps/ffmpeg/ffmpeg > /dev/null; do
         if [ $RANDOM -lt 1638 ]; then
-          glaze
+          lookaround
         else
           sleep 30
         fi
